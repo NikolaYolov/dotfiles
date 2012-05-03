@@ -1,0 +1,8 @@
+URxvt*scrollBar_right: false
+URxvt*scrollBar: false
+URxvt*borderLess: false
+URxvt*inheritPixmap: true
+URxvt*tintColor: white
+URxvt*shading: 40
+URxvt*background: black
+URxvt*foreground: gray
