@@ -1,0 +1,17 @@
+[user]
+	name = Nikola Yolov
+	email = nyolov@cern.ch
+[core]
+	editor = vim
+[giggle]
+        main-window-maximized = true
+        main-window-geometry = 0x0+0+0
+        history-view-vpane-position = 665
+        file-view-vpane-position = 842
+        main-window-view = HistoryView
+        show-graph = true
+[color]
+        diff = auto
+        status = auto
+        branch = auto
+
