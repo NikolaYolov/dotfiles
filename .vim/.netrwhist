@@ -1,10 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/home/nikola/.ssh'
-let g:netrw_dirhist_2='/home/nikola/.config/awesome/icons/xbm8x8'
-let g:netrw_dirhist_3='/home/nikola/.config/awesome'
-let g:netrw_dirhist_4='/home/nikola/projects'
-let g:netrw_dirhist_5='/home/nikola/projects/hashtables/bld'
-let g:netrw_dirhist_6='/home/nikola/projects/hashtables'
-let g:netrw_dirhist_7='/home/nikola/.config'
-let g:netrw_dirhist_8='/home/nikola/projects'
+let g:netrw_dirhist_cnt =0
