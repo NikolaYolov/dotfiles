@@ -94,11 +94,11 @@ bat_full_image = image(beautiful.bat_full)
 bat_low_image = image(beautiful.low_full)
 bat_empty_image = image(beautiful.empty_full)
 
-baticon = widget({ type = "imagebox" })
-baticon.image = bat_full_image
-baticon:add_signal("battery image", function()
-                   baticon.image = bat_empty_image
-                   end)
+--baticon = widget({ type = "imagebox" })
+--baticon.image = bat_full_image
+--baticon:add_signal("battery image", function()
+--                   baticon.image = bat_empty_image
+--                   end)
 
 -- Battery widget
 batwidget = widget({ type = "textbox" })
@@ -106,11 +106,11 @@ vicious.register(batwidget, vicious.widgets.bat,
                  function (wid, args)
                      if args[2] == 100 then
                          color_str = beautiful.green_color
-                         baticon.image = bat_empty_image
+--                         baticon.image = bat_empty_image
 --                         wid:emit_signal("battery image")
                      elseif args[2] > 50 then
                          color_str = beautiful.blue_color
-                         baticon.image = bat_empty_image
+--                         baticon.image = bat_empty_image
 --                         wid:emit_signal("battery image")
 --                         baticon.image = beautiful.bat_full_image
                      elseif args[2] > 25 then
@@ -121,7 +121,7 @@ vicious.register(batwidget, vicious.widgets.bat,
 --                         baticon.image = beautiful.bat_empty_image
                      end
                      return string.format("<span color=%q>%s %d%% %s</span>", color_str, args[1], args[2], args[3])
-                 end, 1, "BAT0")
+                 end, 61, "BAT0")
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -203,7 +203,7 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         mytextclock,
         upicon, netwidget, dnicon,
-        batwidget, baticon,
+        batwidget, -- baticon,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -364,8 +364,8 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    { rule = { class = "chromium" },
+      properties = { tag = tags[1][2] } },
 }
 -- }}}
 
