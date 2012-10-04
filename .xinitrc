@@ -1,4 +1,8 @@
 xrdb -merge ~/.Xresources
+
+# Keys
+. $HOME/.xkbmap
+
 %xcompmgr -c &
 while true;
 do
