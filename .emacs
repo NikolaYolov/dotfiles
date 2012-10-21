@@ -14,6 +14,11 @@
 ;;(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
 (add-hook 'haskell-mode-hook 'font-lock-mode)
 
+;; Latex configuration
+
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
+
 ;; Forcing vertical window split
 
 (setq split-height-threshold most-positive-fixnum)
