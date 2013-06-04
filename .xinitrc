@@ -12,4 +12,5 @@ xrdb -merge ~/.Xresources
 #done &
 
 conky &
+/usr/bin/xscreensaver -no-splash &
 exec awesome
