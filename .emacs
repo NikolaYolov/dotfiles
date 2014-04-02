@@ -1,18 +1,18 @@
 ;; C onfiguration
 
-(add-hook 'c-mode-base-hook 'my-c-mode-hook)
-
-(defun my-c-mode-hook ()
-	(define-key c-mode-base-map (kbd "TAB") 'self-insert-command))
+(setq c-default-style "linux"
+          c-basic-offset 8)
 
 ;; Haskell configuration
 
-(load "haskell-site-file")
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+;; TODO: Fix haskell mode! Check the package description in git hub!
+
+;;(load "haskell-site-file")
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 ;;(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 ;;(add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
-(add-hook 'haskell-mode-hook 'font-lock-mode)
+;;(add-hook 'haskell-mode-hook 'font-lock-mode)
 
 ;; Latex configuration
 
