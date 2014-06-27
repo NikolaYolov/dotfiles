@@ -1,15 +1,10 @@
 xrdb -merge ~/.Xresources
 
+#start pulse
+/usr/bin/start-pulseaudio-x11
+
 # Keys
 . $HOME/.xkbmap
-
-#%xcompmgr -c &
-#while true;
-#do
-#	sleep 5s
-#	conky
-#	exit
-#done &
 
 conky &
 /usr/bin/xscreensaver -no-splash &

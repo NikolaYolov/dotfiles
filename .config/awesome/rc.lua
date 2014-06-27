@@ -10,6 +10,9 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+-- Load the pulse widget.
+local pulsewidget = require("apw/widget")
+
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -193,6 +196,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(pulsewidget)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -432,3 +436,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- awful.util.spawn_with_shell("conky")
+
+
+-- Update pulse audio widget
+APWTimer = timer({ timeout = 0.5 }) -- set update interval in s
+APWTimer:connect_signal("timeout", pulsewidget.Update)
+APWTimer:start()
