@@ -1,7 +1,6 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
-awful.rules = require("awful.rules")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
@@ -11,9 +10,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
-local APW = require("apw/widget")
--- Load the pulse widget.
-local pulsewidget = require("apw/widget")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -42,11 +38,10 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
--- beautiful.init("/usr/share/awesome/themes/default/theme.lua")
-beautiful.init("~/.config/awesome/themes/arch/theme.lua")
+beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xfce4-terminal"
+terminal = "xterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -120,7 +115,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = awful.widget.textclock()
+mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -184,36 +179,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
 
-    -- {{{ Tags
-    -- Define a tag table which hold all screen tags.
-    tags = {
-        names  = { "web", "mail", "skype", "bash", 5, 6, 7, 8, 9 },
-        layout = { awful.layout.layouts[2], awful.layout.layouts[2],
-                   awful.layout.layouts[2], awful.layout.layouts[2],
-                   awful.layout.layouts[2], awful.layout.layouts[2],
-                   awful.layout.layouts[2], awful.layout.layouts[2],
-                   awful.layout.layouts[2] },
-        icons = { "/home/nikola/.config/awesome/icons/chromium.png",
-                  "/home/nikola/.config/awesome/icons/thunderbird.png",
-                  "/home/nikola/.config/awesome/icons/skype.png",
-                  "/home/nikola/.config/awesome/icons/terminal.png" }
-    }
-
-    for s = 1, screen.count() do
-        -- Each screen has its own tag table.
-        tags[s] = awful.tag(tags.names, s, tags.layout)
-
-        awful.tag.seticon(tags.icons[1], tags[s][1])
-        awful.tag.seticon(tags.icons[2], tags[s][2])
-        awful.tag.seticon(tags.icons[3], tags[s][3])
-        awful.tag.seticon(tags.icons[4], tags[s][4])
-    end
-
-    for a = 1, 4, 1 do
-        awful.tag.setproperty(tags[1][a], "icon_only", 1)
-    end
-
-    -- }}}
+    -- Each screen has its own tag table.
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -250,7 +217,6 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
-            pulsewidget,
         },
     }
 end)
@@ -466,11 +432,46 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
-    { rule = { class = "Chromium" },    properties = { tag = tags[1][1] } },
-    { rule = { class = "Thunderbird" }, properties = { tag = tags[1][2] } },
-    { rule = { class = "skypeforlinux" }, properties = { tag = tags[1][3] },
-                                                 size_hints_honor = false }
+                     buttons = clientbuttons,
+                     screen = awful.screen.preferred,
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+     }
+    },
+
+    -- Floating clients.
+    { rule_any = {
+        instance = {
+          "DTA",  -- Firefox addon DownThemAll.
+          "copyq",  -- Includes session name in class.
+        },
+        class = {
+          "Arandr",
+          "Gpick",
+          "Kruler",
+          "MessageWin",  -- kalarm.
+          "Sxiv",
+          "Wpa_gui",
+          "pinentry",
+          "veromix",
+          "xtightvncviewer"},
+
+        name = {
+          "Event Tester",  -- xev.
+        },
+        role = {
+          "AlarmWindow",  -- Thunderbird's calendar.
+          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+        }
+      }, properties = { floating = true }},
+
+    -- Add titlebars to normal clients and dialogs
+    { rule_any = {type = { "normal", "dialog" }
+      }, properties = { titlebars_enabled = true }
+    },
+
+    -- Set Firefox to always map on the tag named "2" on screen 1.
+    -- { rule = { class = "Firefox" },
+    --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}
 
@@ -542,13 +543,3 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-
-
--- Update pulse audio widget
-APWTimer = timer({ timeout = 0.5 }) -- set update interval in s
-APWTimer:connect_signal("timeout", pulsewidget.Update)
-APWTimer:start()
-
-awful.util.spawn_with_shell("chromium")
-awful.util.spawn_with_shell("thunderbird")
-awful.util.spawn_with_shell("skypeforlinux")
